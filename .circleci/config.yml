@@ -48,7 +48,7 @@ jobs:
           command: |
             git config --global user.email $GITHUB_EMAIL
             git config --global user.name $GITHUB_USER
-            npm run patch -m "version %s [skip ci]"
+            npm version patch -m "version %s [skip ci]"
 
       - run:
           name: Prep env variables
