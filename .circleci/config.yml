@@ -1,7 +1,7 @@
 defaults: &defaults
   docker:
     - image: circleci/node:latest
-  working_directory: ~/snapit-landing2
+  working_directory: ~/snapit-server2
 
 version: 2
 jobs:
