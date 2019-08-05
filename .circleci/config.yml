@@ -4,13 +4,13 @@ jobs:
     docker:
       - image: circleci/node:latest
 
-    working_directory: ~/snapit-server
+    working_directory: ~/snapit-server2
 
     steps:
       - checkout
 
       - attach_workspace:
-          at: ~/snapit-server
+          at: ~/snapit-server2
 
       - run: npm ci
 
@@ -29,7 +29,7 @@ jobs:
     steps:
 
       - attach_workspace:
-          at: ~/snapit-server
+          at: ~/snapit-server2
 
       - setup_remote_docker:
           docker_layer_caching: true
@@ -74,7 +74,7 @@ jobs:
     steps:
 
       - attach_workspace:
-          at: ~/snapit-server
+          at: ~/snapit-server2
 
       - run:
           name: Deploy app
