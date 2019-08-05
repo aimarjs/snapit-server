@@ -69,6 +69,7 @@ jobs:
           command: |
             git pull
             echo -e "Host github.com\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
+            cat ~/.ssh/config
             git push -q https://$GITHUB_TOKEN@github.com/aimarjs/snapit-server.git $CIRCLE_BRANCH
             git push --tags
 
