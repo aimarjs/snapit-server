@@ -17,6 +17,9 @@ jobs:
       - run: 
           name: Show dir
           command: ls -la
+      - run: 
+          name: Show where am i
+          command: pwd
       - persist_to_workspace:
           root: .
           paths:
@@ -37,6 +40,9 @@ jobs:
       - run: 
           name: Show dir
           command: ls -la
+      - run: 
+          name: Show where am i
+          command: pwd
       - run:
           name: Bump the version
           command: |
