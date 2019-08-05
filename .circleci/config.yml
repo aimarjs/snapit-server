@@ -14,7 +14,9 @@ jobs:
           at: ~/snapit-server2
 
       - run: npm ci
-
+      - run: 
+          name: Show dir
+          command: ls -la
       - persist_to_workspace:
           root: .
           paths:
