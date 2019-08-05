@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "nodemon server.js",
     "start": "ENV=production node server.js",
-    "test": "jest --watchAll"
+    "test": "jest --watchAll",
+    "lint": "./node_modules/.bin/eslint ."
   },
   "keywords": [],
   "author": "",
