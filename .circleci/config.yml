@@ -32,7 +32,9 @@ jobs:
 
       - setup_remote_docker:
           docker_layer_caching: true
-
+      - run: 
+          name: Show dir
+          command: ls -la
       - run:
           name: Bump the version
           command: |
