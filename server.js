@@ -28,7 +28,7 @@ routes(server);
 
 server.listen(config.port, function () {
     mongoose.Promise = global.Promise;
-    mongoose.connect(config.db.uri, { useNewUrlParser: true });
+    mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
     const db = mongoose.connection;
 
