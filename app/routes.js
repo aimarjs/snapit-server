@@ -2,6 +2,7 @@ const errors = require('restify-errors');
 const yup = require('yup');
 const Message = require('./models/Message');
 const sgMail = require('@sendgrid/mail');
+const config = require('./config');
 
 sgMail.setApiKey(process.env.SG_TOKEN);
 
@@ -34,14 +35,16 @@ module.exports = (server) => {
                             subject: 'Inquiry from snapit.ee website',
                             html: `message: ${data.message} <br /> phone: ${data.phone} <br /> sender: ${data.name} <br /> email: ${data.email}`,
                         };
-                        sgMail
-                            .send(msg)
-                            .then(success => {
-                                res.status(201);
-                                res.send({ message: 'Success', data: data });
-                                next();
-                            })
-                            .catch(error => console.error(error.toString()));
+                        if (config.sendNotifications) {
+                            sgMail
+                                .send(msg)
+                                .then(success => {
+                                    res.status(201);
+                                    res.send({ message: 'Success', data: data });
+                                    next();
+                                })
+                                .catch(error => console.error(error.toString()));
+                        }
                     })
                     .catch(err => {
                         console.error('mongo error', err);

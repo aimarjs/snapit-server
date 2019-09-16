@@ -1,5 +1,6 @@
 module.exports = {
     name: 'snapit-server',
+    sendNotifications: false,
     env: process.env.NODE_ENV || 'development',
     port: process.env.PORT || 8080,
     base_url: process.env.DATABASE_URL || 'http://0.0.0.0:8080',
