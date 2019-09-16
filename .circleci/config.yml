@@ -1,19 +1,18 @@
-version: 2
+version: 2.1
 jobs:
   testing:
     docker:
       - image: circleci/node:latest
 
-    working_directory: ~/snapit-server2
+    working_directory: ~/snapit-server
 
     steps:
       - checkout
 
       - attach_workspace:
-          at: ~/snapit-server2
+          at: ~/snapit-server
 
       - run: npm ci
-
       - persist_to_workspace:
           root: .
           paths:
@@ -25,21 +24,20 @@ jobs:
   release:
     docker:
       - image: circleci/node:latest
-
+    working_directory: ~/snapit-server
     steps:
 
       - attach_workspace:
-          at: ~/snapit-server2
+          at: ~/snapit-server
 
       - setup_remote_docker:
           docker_layer_caching: true
-
       - run:
           name: Bump the version
           command: |
             git config --global user.email $GITHUB_EMAIL
             git config --global user.name $GITHUB_USER
-            npm run patch -m "version %s [skip ci]"
+            npm version patch -m "version %s [skip ci]"
 
       - run:
           name: Prep env variables
@@ -50,7 +48,7 @@ jobs:
           name: Build and push docker image
           command: |
             docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASSWORD
-            docker build -t $DOCKER_HUB_USER/$CIRCLE_PROJECT_REPONAME:$TAG .
+            docker build --build-arg MONGODB_URI=${MONGODB_URI} --build-arg SG_TOKEN=${SG_TOKEN} -t $DOCKER_HUB_USER/$CIRCLE_PROJECT_REPONAME:$TAG .
             docker tag $DOCKER_HUB_USER/$CIRCLE_PROJECT_REPONAME:$TAG $DOCKER_HUB_USER/$CIRCLE_PROJECT_REPONAME:latest
             docker push $DOCKER_HUB_USER/$CIRCLE_PROJECT_REPONAME:$TAG
             docker push $DOCKER_HUB_USER/$CIRCLE_PROJECT_REPONAME:latest
@@ -59,7 +57,7 @@ jobs:
           name: Push version tag to github
           command: |
             echo -e "Host github.com\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
-            git push -q https://$GITHUB_TOKEN@github.com/aimarjs/snapit-server.git $CIRCLE_BRANCH
+            git push origin $CIRCLE_BRANCH
             git push --tags
 
       - persist_to_workspace:
@@ -70,17 +68,18 @@ jobs:
   deploy:
     docker:
       - image: circleci/node:latest
+    working_directory: ~/snapit-server
 
     steps:
 
       - attach_workspace:
-          at: ~/snapit-server2
+          at: ~/snapit-server
 
       - run:
           name: Deploy app
           command: |
             ssh -o "StrictHostKeyChecking no" $SSH_USER@$SSH_HOSTNAME "docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASSWORD"
-            ssh -o "StrictHostKeyChecking no" $SSH_USER@$SSH_HOSTNAME "/bin/bash ./deploy.sh $DOCKER_HUB_USER/$CIRCLE_PROJECT_REPONAME:$(eval jq -r '.version' ~/snapit-landing/package.json) $CIRCLE_PROJECT_REPONAME $CIRCLE_BRANCH"
+            ssh -o "StrictHostKeyChecking no" $SSH_USER@$SSH_HOSTNAME "/bin/bash ./deploy.sh $DOCKER_HUB_USER/$CIRCLE_PROJECT_REPONAME:$(eval jq -r '.version' ~/snapit-server/package.json) $CIRCLE_PROJECT_REPONAME $CIRCLE_BRANCH 8080 8080"
 
 workflows:
   version: 2
