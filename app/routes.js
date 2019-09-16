@@ -67,4 +67,18 @@ module.exports = (server) => {
                 return next(new errors.InternalError(err.message));
             });
     });
+
+    server.del('/messages/:message_id', (req, res, next) => {
+        Message.deleteOne({ _id: req.params.message_id })
+            .then(result => {
+                res.send({ message: 'deleted!' });
+                next();
+            })
+            .catch(err => {
+                console.error(err);
+                return next(
+                    new errors.InvalidContentError(err.errors.name.message),
+                );
+            });
+    });
 };

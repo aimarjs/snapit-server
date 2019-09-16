@@ -7,7 +7,8 @@ const config = require('./app/config');
 const routes = require('./app/routes');
 
 const cors = corsMiddleware({
-    origins: ['*']
+    origins: ['*'],
+    allowHeaders: ['']
 });
 
 const server = restify.createServer({
