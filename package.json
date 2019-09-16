@@ -1,7 +1,7 @@
 {
   "name": "snapit-server",
   "version": "0.0.9",
-  "description": "",
+  "description": "This is snapit server",
   "main": "index.js",
   "scripts": {
     "dev": "nodemon server.js",
