@@ -48,7 +48,7 @@ jobs:
           name: Build and push docker image
           command: |
             docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASSWORD
-            docker build -t $DOCKER_HUB_USER/$CIRCLE_PROJECT_REPONAME:$TAG .
+            docker build --build-arg MONGODB_URI=${MONGODB_URI} SG_TOKEN=${SG_TOKEN} -t $DOCKER_HUB_USER/$CIRCLE_PROJECT_REPONAME:$TAG .
             docker tag $DOCKER_HUB_USER/$CIRCLE_PROJECT_REPONAME:$TAG $DOCKER_HUB_USER/$CIRCLE_PROJECT_REPONAME:latest
             docker push $DOCKER_HUB_USER/$CIRCLE_PROJECT_REPONAME:$TAG
             docker push $DOCKER_HUB_USER/$CIRCLE_PROJECT_REPONAME:latest
