@@ -79,7 +79,7 @@ jobs:
           name: Deploy app
           command: |
             ssh -o "StrictHostKeyChecking no" $SSH_USER@$SSH_HOSTNAME "docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASSWORD"
-            ssh -o "StrictHostKeyChecking no" $SSH_USER@$SSH_HOSTNAME "/bin/bash ./deploy.sh $DOCKER_HUB_USER/$CIRCLE_PROJECT_REPONAME:$(eval jq -r '.version' ~/snapit-server/package.json) $CIRCLE_PROJECT_REPONAME $CIRCLE_BRANCH"
+            ssh -o "StrictHostKeyChecking no" $SSH_USER@$SSH_HOSTNAME "/bin/bash ./deploy.sh $DOCKER_HUB_USER/$CIRCLE_PROJECT_REPONAME:$(eval jq -r '.version' ~/snapit-server/package.json) $CIRCLE_PROJECT_REPONAME $CIRCLE_BRANCH 8080 8080"
 
 workflows:
   version: 2
