@@ -24,7 +24,7 @@ jobs:
   release:
     docker:
       - image: circleci/node:latest
-
+    working_directory: ~/snapit-server
     steps:
 
       - attach_workspace:
@@ -68,7 +68,8 @@ jobs:
   deploy:
     docker:
       - image: circleci/node:latest
-
+    working_directory: ~/snapit-server
+    
     steps:
 
       - attach_workspace:
