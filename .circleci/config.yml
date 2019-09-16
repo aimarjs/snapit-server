@@ -10,7 +10,7 @@ jobs:
       - checkout
 
       - attach_workspace:
-          at: ~/snapit-server2
+          at: ~/snapit-server
 
       - run: npm ci
       - persist_to_workspace:
