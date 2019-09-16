@@ -57,7 +57,7 @@ jobs:
           name: Push version tag to github
           command: |
             echo -e "Host github.com\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
-            git push
+            git push origin $CIRCLE_BRANCH
             git push --tags
 
       - persist_to_workspace:
