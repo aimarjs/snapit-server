@@ -18,7 +18,7 @@
     "express-validator": "^6.1.1",
     "joi": "^14.3.1",
     "mongo-seeding": "^3.3.0",
-    "mongoose": "^5.6.7",
+    "mongoose": "^5.7.5",
     "mongoose-string-query": "^0.2.7",
     "mongoose-timestamp": "^0.6.0",
     "restify": "^8.3.3",
